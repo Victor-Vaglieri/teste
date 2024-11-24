@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesas Online</title>
+    
+
+    <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap" rel="stylesheet">
+
+    <style>
+        /* Estilos aqui permanecem os mesmos adicionei o css apenas #######################################################*/
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Uncial Antiqua', serif;
+            background-image: url('/static/inicial.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #titulo-principal {
+            font-size: 64px;
+            color: rgb(175, 162, 162);
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        #mesas-online {
+            text-align: center;
+            color: #333;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(182, 101, 101, 0);
+            border: none;
+            width: 200%;
+            max-width: 1400px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #mesas-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 7px;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+            max-height: 750px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(44, 43, 43, 0.8) transparent;
+        }
+
+        #mesas-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #mesas-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #mesas-container::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 0, 0, 1);
+            border-radius: 10px;
+            border: 2px solid transparent;
+        }
+
+        #mesas-container::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(242, 0, 0, 1);
+        }
+
+        .mesa-item {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            text-align: center;
+            margin: 10px 0;
+            color: #b7acac;
+        }
+
+        .mesa-item a {
+            display: block;
+            color: #b0aeae;
+            text-decoration: none;
+            font-size: 18px;
+            margin-bottom: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .mesa-item a:hover {
+            background-color: rgba(148, 38, 38, 0.4);
+        }
+
+        form {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 200px;
+            position: fixed;
+            top: 20px;
+            right: 80px;
+        }
+
+        label {
+            display: block;
+            margin: 0px 0 0px;
+            color: white;
+        }
+
+        input {
+            padding: 10px;
+            width: 90%;
+            margin: 5px 0 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: rgb(32, 30, 30,0.8);
+            color: white;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            color: white;
+            background-color: rgba(158, 152, 152, 0.305);
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: rgba(158, 152, 152, 1);
+        }
+
+        #mesas-container {
+            width: 100%;
+            height: 50%;
+            overflow-y: scroll;  /* Rolagem para acomodar mais mesas */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            border: 1px solid #621717;
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            color: #be0202;
+            padding: 50px; /* Reduzi o padding de 100px para 30px */
+        }
+
+        .mesa-item {
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            background-color: rgb(27, 9, 9,0.5);
+            color: rgb(162, 154, 154);
+            padding: 20px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+
+
+        audio {
+            position: absolute;
+            z-index: -9999;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Música de fundo com controle de tempo inicial ###########################################-->
+    <audio id="background-audio" src="{{ url_for('static', filename='musica.mp3') }}" loop autoplay></audio>
+    
+    <script>
+        //apenas musicaaaaaaaaaa scriot so para isso ignorar essa parte
+        // Função chamada quando a página carrega
+        window.onload = function() {
+            var audio = document.getElementById('background-audio');
+            
+            // Verifica se há um tempo salvo no localStorage
+            var savedTime = localStorage.getItem('audioTime');
+            if (savedTime) {
+                audio.currentTime = savedTime; // Se houver, começa do tempo salvo
+            } else {
+                audio.currentTime = 62;  // Caso contrário, inicia de 1 minuto e 2 segundos
+            }
+
+            audio.play(); // Começa a música
+
+            // Atualiza o tempo da música no localStorage a cada segundo
+            setInterval(function() {
+                localStorage.setItem('audioTime', audio.currentTime);
+            }, 1000);
+        };
+    </script>
+
+
+</head>
+<body>
+    <div id="mesas-online">
+        <h1>Mesas Online</h1>
+        <div id="mesas-container">
+            {% for sala in salas %}
+            <div class="mesa-item">
+                <a id="mesa" href="{{ url_for('entrarMesa') }}">Entrar</a>
+                <span>{{ sala.nome }}</span>
+                <span>{{ sala.seats }} assentos</span>
+                <span>Blinds: {{ sala.small_blind }} / {{ sala.big_blind }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        <h2></h2>
+        <form method="post">
+            <label for="nome">Nome da sala:</label>
+            <input type="text" id="nome" name="nome" required>
+            <br><br>
+            <label for="tamanho">Tamanho da sala:</label>
+            <input type="number" id="tamanho" name="tamanho" required>
+            <br><br>
+            <label for="small">Valor do small blind:</label>
+            <input type="number" id="small" name="small" required>
+            <br><br>
+            <label for="big">Valor do big blind:</label>
+            <input type="number" id="big" name="big" required>
+            <br><br>
+            <button type="submit">Criar sala</button>
+        </form>
+    </div>
+</body>
+</html>

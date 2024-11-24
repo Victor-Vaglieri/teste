@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medieval Poker - Tela Inicial</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Configuração do fundo da página */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-image: url('/static/Blaka.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Centraliza e dimensiona a imagem de boas-vindas */
+        .welcome-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-image: url('/static/sua-imagem.png'); /* Substitua pelo caminho da sua imagem */
+            background-size: contain; /* Ajusta a imagem para caber sem cortes */
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 80vw; /* Largura relativa à tela */
+            height: 80vh; /* Altura relativa à tela */
+            max-width: 1400px;
+            max-height: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        /* Estilo do botão de boas-vindas */
+        .welcome-button {
+            padding: 15px 30px;
+            background-color: #692929;
+            color: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .welcome-button:hover {
+            background-color: #000000;
+        }
+
+        /* Configurações do áudio */
+        audio, embed {
+            position: absolute;
+            z-index: -9999;
+        }
+
+        /* Estilo para o conteúdo da tela inicial */
+        .content {
+            text-align: center;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px; /* Adiciona o espaçamento entre os botões */
+            pointer-events: auto; /* Habilita a interação com os botões */
+            z-index: 10;
+        }
+
+        .button {
+            font-size: 20px;
+            background-color: rgba(0, 0, 0, 0); /* Fundo escuro para visibilidade */
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            padding: 20px 40px; /* Ajusta o tamanho do botão */
+            
+        }
+        .button:hover {
+            background-color: rgba(0, 0, 0, 0); /* Efeito de hover para destaque */
+        }
+
+        /* Botão Jogar */
+        .button-esquerda {
+            margin-left: -640px; /* Ajusta o botão para a esquerda */
+            padding: 50px 190px; /* Define tamanho do botão */
+        }
+
+        /* Botão Aventura */
+        .button-direita {
+            margin-left: 500x; /* Ajusta o botão para a direita */
+            padding: 50px 180px; /* Define tamanho do botão */
+        }
+
+        /* Estilo do botão de OK */
+        .welcome-button {
+            margin-top: 220px;
+            padding: 10px 3px;
+            background-color: #692929;
+            color: black;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .welcome-button:hover {
+            background-color: #000000;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Música de fundo -->
+    <audio id="background-audio" src="{{ url_for('static', filename='musica.mp3') }}" loop muted></audio>
+
+    <script>
+        // Função para iniciar o áudio e remover a tela de boas-vindas
+        function startMusic() {
+            const audio = document.getElementById("background-audio");
+            audio.play();
+            audio.muted = false;
+            document.getElementById("welcome-message").style.display = 'none';
+            document.querySelector('.content').style.pointerEvents = 'auto';
+        }
+
+        // Exibe a mensagem de boas-vindas ao carregar a página
+        window.onload = function() {
+            const message = document.createElement("div");
+            message.classList.add("welcome-message");
+            message.id = "welcome-message";
+
+            const button = document.createElement("button");
+            button.classList.add("welcome-button");
+            button.textContent = "OK";
+            button.onclick = startMusic; 
+            message.appendChild(button);
+
+            document.body.appendChild(message);
+        };
+    </script>
+
+    <div class="content">
+        <!-- Botão Jogar -->
+        <a href="{{ url_for('mesas') }}" class="button button-esquerda"></a>
+    </div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

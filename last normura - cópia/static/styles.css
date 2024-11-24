@@ -1,0 +1,231 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Criação de um contêiner para o fundo */
+
+
+
+
+
+
+
+
+.voltar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: lightgray;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.voltar:hover {
+    background-color: gray;
+}
+
+/* Botão de revelação (exemplo) */
+
+
+/* Cartas Comunitárias no Centro */
+.cartas-comunitarias {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.comunitarias {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Cartas do Bot - Centralizadas na Parte Superior */
+
+
+/* Cartas do Jogador - Centralizadas na Parte Inferior */
+.cartas-container {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Estilo das Cartas */
+.carta {
+    width: 100px;
+    height: auto;
+    border-radius: 15px;
+}
+
+.cartas-bot {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+
+
+.carta-fechada {
+    width: 100px; /* Aumenta o tamanho do verso das cartas */
+    height: 150px; /* Aumenta a altura do verso das cartas */
+    background-image: url('/static/closed_card.png');
+    background-size: cover;
+    border-radius: 5px;
+    display: block;
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
+}
+
+
+.revealButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px 10px;
+    background-color: rgb(216, 6, 6);
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+/* Estilo dos Botões na Parte Inferior */
+form {
+    position: absolute;
+    bottom: 1%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: #6a9c33;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #4d7a25;
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #3c5c1a;
+}
+
+
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    color: #f1f1f1;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    margin-top: 20px;
+}
+
+/* Fichas do Oponente */
+.fichas-container {
+    position: absolute;
+    top: 30%;  /* Posição do topo */
+    left: 20%;
+    transform: translateX(-50%);
+    font-size: 1.5em;  /* Ajuste o tamanho da fonte */
+    color: #fff;
+    text-align: center;
+    margin-top: 1px;  /* Um pequeno espaçamento */
+}
+
+
+.fichas-container-jogador {
+    position: absolute;
+    top: 50%;  /* Posição do topo */
+    left: 20%;
+    transform: translateX(-50%);
+    font-size: 1.5em;  /* Ajuste o tamanho da fonte */
+    color: #fff;
+    text-align: center;
+    margin-top: 1px;  /* Um pequeno espaçamento */
+}
+
+
+
+
+
+/* Estilo das Fichas do Jogador e do Oponente */
+h2 {
+    font-size: 1.5em;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+
+
+/* Estilizando as Cartas do Bot e do Jogador */
+.carta {
+    width: 130px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+.cartas-bot img,
+.cartas-container img {
+    transition: transform 0.3s ease-in-out;
+}
+
+.cartas-bot img:hover,
+.cartas-container img:hover {
+    transform: scale(1.1);
+}
+
+/* Estilo dos Botões na Parte Inferior */
+form {
+    position: absolute;
+    bottom: 1%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: #6a9c33;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #4d7a25;
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #3c5c1a;
+}
