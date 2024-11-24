@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <script> 
+        window.onload = function() {
+            var audio = document.getElementById('background-audio');
+            
+            // Define o tempo inicial para 90 segundos se não tiver progresso salvo
+            var savedTime = localStorage.getItem('audioTime');
+            audio.currentTime = savedTime ? parseFloat(savedTime) : 90;
+
+            // Inicia a música
+            audio.play();
+            
+            // Salva o progresso da música a cada segundo
+            setInterval(function() {
+                localStorage.setItem('audioTime', audio.currentTime);
+            }, 1000);
+        };
+
+    </script>
+
+</head>
+<body style="background-image: url('/static/jogo_tela.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
+
+    <!-- Música de fundo com controle de tempo inicial -->
+    <audio id="background-audio" src="{{ url_for('static', filename='musica.mp3') }}" loop autoplay></audio>
+
+    <!-- Tudo referente a rodada 0 não precisa mais -->
+    <div id="mesa-jogo">
+        <button class="voltar" onclick="window.location.href='{{ url_for('home') }}'">Voltar</button>
+        <h1>Mesa: {{ sala.nome }}</h1>
+        <div class="mesa-visual">
+            <div class="cartas-bot" id="cadeira1">
+                    <h2>Cartas do Bot</h2> 
+                    {% for carta in bot.cards %}
+                        {% if sala.rodada == 5 %}
+                            <img src="{{ carta.image }}" alt="{{ carta.value }} de {{ carta.suit }}" class="carta">
+                        {% else %}
+                            <!-- Mostrar carta fechada -->
+                            <img src="/static/closed_card.png" alt="Carta Fechada" class="carta">
+                        {% endif %}
+                    {% endfor %}
+            </div>
+        </div>
+             
+        <div class="fichas-container">
+            <h2>Fichas do Oponente: {{bot.fichas}}</h2>
+        </div>        
+
+        <div class="cartas-comunitarias">
+            <h2>Pot: {{sala.pot}}</h2>
+            <h2>Cartas Comunitárias</h2>
+            <div class="comunitarias">
+                {% if sala.rodada >= 2 %}
+                <img src="{{ sala.flop[0].image }}" alt="{{ sala.flop[0].value }} of {{ sala.flop[0].suit }}" class="carta">
+                <img src="{{ sala.flop[1].image }}" alt="{{ sala.flop[1].value }} of {{ sala.flop[1].suit }}" class="carta">
+                <img src="{{ sala.flop[2].image }}" alt="{{ sala.flop[2].value }} of {{ sala.flop[2].suit }}" class="carta">
+                {% else %}
+                <!-- Mostrar cartas fechadas -->
+                <img src="/static/closed_card.png" alt="Carta Fechada" class="carta">
+                <img src="/static/closed_card.png" alt="Carta Fechada" class="carta">
+                <img src="/static/closed_card.png" alt="Carta Fechada" class="carta">
+                {% endif %}
+                {% if sala.rodada >= 3 %}
+                <img src="{{ sala.turn[0].image }}" alt="{{ sala.turn[0].value }} of {{ sala.turn[0].suit }}" class="carta">
+                {% else %}
+                <!-- Mostrar carta fechada -->
+                <img src="/static/closed_card.png" alt="Carta Fechada" class="carta">
+                {% endif %}
+                {% if sala.rodada >= 4 %}
+                <img src="{{ sala.river[0].image }}" alt="{{ sala.river[0].value }} of {{ sala.river[0].suit }}" class="carta">
+                {% else %}
+                <!-- Mostrar carta fechada -->
+                <img src="/static/closed_card.png" alt="Carta Fechada" class="carta">
+                {% endif %}
+            </div>
+            {% if bot.estado == -1 %}
+                <h2>{{bot.nome}} DEU FOLD, VOCÊ GANHOU!</h2>
+            {% elif jogador.estado == -1 %}
+                <h2>VOCÊ DEU FOLD, {{bot.nome}} GANHOU</h2>
+            {% endif %}
+            {% if sala.rodada == 5 %}
+                {% if sala.vencedores %} <!-- acho que pode tirar isso -->
+                <h2>VENCEDOR FOI {{sala.vencedores[0][1].nome}} TENDO {{sala.lib[sala.vencedores[0][0].handenum]}}</h2>
+                {% else %}
+                <h2>teste else</h2>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="fichas-container-jogador">
+            <h2>Suas fichas: {{jogador.fichas}}</h2> 
+        </div>
+
+        <div class="cartas-container">
+            <h2>Suas Cartas</h2>
+            {% for carta in jogador.cards %}
+                <img src="{{ carta.image }}" alt="{{ carta.value }} of {{ carta.suit }}" class="carta">
+            {% endfor %}
+        </div>
+        {% if sala.rodada == 5 or jogador.estado == -1 or bot.estado == -1 %}
+        <form method="POST">
+            <button type="submit" name="escolha" value="FODASSE">JOGAR DE NOVO</button>
+        </form>
+        
+        {% else %}
+        <form method="POST">
+            {% if sala.apostador == bot %}
+                <button type="submit" name="escolha" value="CALL">CALL</button>
+                <!-- <button type="submit" name="escolha" value="RAISE">RAISE</button> -->
+            {% else %}
+                <button type="submit" name="escolha" value="CHECK">CHECK</button>
+                <button type="submit" name="escolha" value="BET">BET</button>
+            {% endif %}
+            <button type="submit" name="escolha" value="FOLD">FOLD</button>
+        </form>
+        {% endif %}
+
+    </div>
+</body>
+</html>
